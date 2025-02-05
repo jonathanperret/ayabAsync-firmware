@@ -43,26 +43,6 @@ bool Carriage::workFinished(MachineSide side, Direction direction) {
   return finished;
 }
 
-bool Carriage::isCrossing(HallSensor *sensor, Direction requestedDirection) {
-  // offset = # of needles elapsed since detection
-  int16_t offset = _position - sensor->getDetectedPosition();
-  // direction derived from offset
-  Direction direction = (offset > 0) ? Direction::Right : Direction::Left;
-
-  // Update carriage type & position if sensor is passed in the requested direction
-  if (direction == requestedDirection) {
-    reset();
-    _type = sensor->getDetectedCarriage();
-    _position = sensor->getSensorPosition() + offset;
-    if (_type == CarriageType::Garter) {
-      // Inner magnets are +/-12 needles from the center
-      _position = direction == Direction::Left ? _position  + 12 : _position - 12;
-    }
-    return true;
-  }
-  return false;
-}
-
 bool Carriage::isDefined() { return _type != CarriageType::NoCarriage; }
 
 CarriageType Carriage::getType() { return _type; }

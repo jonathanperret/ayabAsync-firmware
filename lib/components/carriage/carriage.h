@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 #include "api.h"
-#include "hallsensor.h"
 
 class Carriage {
  public:
@@ -15,12 +14,11 @@ class Carriage {
   void reset();
   // Update carriage state and return true when work is finished 
   bool workFinished(MachineSide side, Direction direction);
-  // Update carriage type & position when sensor is crossed in the requested direction
-  bool isCrossing(HallSensor *sensor, Direction direction);
   // Check if machine type is defined
   bool isDefined();
   // Return current carriage type
   CarriageType getType();
+  void setType(CarriageType type) { _type = type; }
   // Define carriage position
   void setPosition(int16_t position);
   // Return current carriage position

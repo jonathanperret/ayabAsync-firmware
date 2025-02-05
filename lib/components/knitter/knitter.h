@@ -3,13 +3,11 @@
 
 #include "beeper.h"
 #include "carriage.h"
-#include "encoder.h"
 #include "hal.h"
-#include "hallsensor.h"
 #include "led.h"
 #include "line.h"
 #include "machine.h"
-#include "solenoids.h"
+#include "kh970client.h"
 
 #define BEEPER_INIT 3
 #define BEEPER_CARRIAGE 2
@@ -48,10 +46,6 @@ class Knitter : protected API {
   void schedule();
 
  private:
-  // Detect addresses and type of both GPIO expanders
-  void _detectGpioExpanders(hardwareAbstraction::HalInterface *hal, const uint8_t i2cAddress[][2], GpioExpander* gpio_expander[2]);
-  // (Re)set carriage type/position and beltshift when crossing one sensor
-  void _checkHallSensors();
   // Set solenoids based on current machine state
   void _runMachine();
 
@@ -83,10 +77,7 @@ class Knitter : protected API {
 
   // Ayab Hardware
   Beeper *_beeper;
-  Encoder *_encoder;
-  HallSensor *_hall_left, *_hall_right;
   Led *_led_a, *_led_b;
-  Solenoids *_solenoids;
 
   // Knitter objets
   Machine *_machine;
@@ -99,6 +90,10 @@ class Knitter : protected API {
   Config _config;
   Line _currentLine;
   bool _resetFromOperate;
+
+  KH970Client _kh970Client;
+  int _lastRequestedRow;
+
 };
 
 #endif
