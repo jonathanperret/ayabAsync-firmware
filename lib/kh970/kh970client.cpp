@@ -249,10 +249,17 @@ void KH970Client::process(uint8_t bedVal) {
   case 0xca: // Boot 9
     append(0x00);
     break;
+    
+  case 0x4d: // Sent when the row counter is hit
+    append(0x07);
+    debugLog("Row counter hit");
+    if (_eventHandler) {
+      _eventHandler->rowCounterHit();
+    }
+    break;
 
   case 0x0d: // Sent (once) when carriage changes direction after crossing the
              // center; will be followed by pattern request (85)
-  case 0x4d: // Sent when the row counter is hit
   case 0x8d: // Sent when the bed center is crossed
 
     // We get 2D 6D 7D 13 D3 when the K carriage crosses the left button.

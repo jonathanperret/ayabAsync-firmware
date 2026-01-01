@@ -93,6 +93,7 @@ class Knitter : protected API, private KH970ClientEvents {
 
   // KH970ClientEvents interface
   void debugLog(const char *msg) override;
+  void rowCounterHit() override;
 
   KH970Client _kh970Client;
   int _lastRequestedRow;

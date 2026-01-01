@@ -15,6 +15,7 @@
 class KH970ClientEvents {
  public:
   virtual void debugLog(const char *msg) {}
+  virtual void rowCounterHit() {}
 };
 
 struct KH970Client {

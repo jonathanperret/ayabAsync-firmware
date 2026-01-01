@@ -58,6 +58,7 @@ enum class AYAB_API : uint8_t {
   confirmInfo = 0xc3,
   requestState = 0x44,
   indicateState = 0x84,
+  rowCounterHit = 0x85,
 
   debugBase = 0xf0,
   debugRequestPeek = 0xf8,
@@ -100,15 +101,15 @@ class API {
                                   uint8_t size, bool isLastLine) = 0;
   // Call derived class method to report knitter state
   void virtual _apiRxIndicateState() = 0;
-
+  
   //----------------------------------------------------------------------------
   // TX message handlers
   //----------------------------------------------------------------------------
   // Send message to indicate machine state
   void _apiIndicateState(KnitterState state, uint16_t hallValueLeft,
-                         uint16_t hallValueRight, CarriageType carriageType,
-                         int16_t carriagePosition, Direction carriageDirection,
-                         MachineSide hallActive, BeltShift beltshift);
+  uint16_t hallValueRight, CarriageType carriageType,
+  int16_t carriagePosition, Direction carriageDirection,
+  MachineSide hallActive, BeltShift beltshift);
   // Reply to init request message (set machne type)
   void _apiConfirmInit();
   // Reply to the start request message
@@ -121,6 +122,8 @@ class API {
   void _apiConfirmPeek(uint8_t returnValue);
   // Send debug log message
   void _apiDebugLog(const char *msg);
+  // Send row counter hit message
+  void _apiRowCounterHit();
 
   hardwareAbstraction::HalInterface *_hal;
 };

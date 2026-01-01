@@ -188,6 +188,11 @@ void Knitter::debugLog(const char *msg)
   _apiDebugLog(msg);
 }
 
+void Knitter::rowCounterHit()
+{
+  _apiRowCounterHit();
+}
+
 void Knitter::_runMachine() {
   if (_machine->isDefined()) {
     _carriage->setType(CarriageType::Knit);

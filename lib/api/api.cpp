@@ -217,3 +217,12 @@ void API::_apiDebugLog(const char *msg)
   _hal->packetSerial->send(message, msg_len + 2);
   _apiTxTrafficIndication();
 }
+
+void API::_apiRowCounterHit()
+{
+  uint8_t message[] = {(uint8_t)AYAB_API::rowCounterHit, 0, 0};
+  size_t size = sizeof(message);
+  message[size - 1] = crc8(message, size - 1);
+  _hal->packetSerial->send(message, size);
+  _apiTxTrafficIndication();
+}
