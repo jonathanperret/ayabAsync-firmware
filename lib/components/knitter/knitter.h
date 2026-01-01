@@ -35,7 +35,7 @@ class Config {
 // Knitter class
 //----------------------------------------------------------------------------
 
-class Knitter : protected API {
+class Knitter : protected API, private KH970ClientEvents {
  public:
   Knitter(hardwareAbstraction::HalInterface *hal);
   ~Knitter() = default;
@@ -90,6 +90,9 @@ class Knitter : protected API {
   Config _config;
   Line _currentLine;
   bool _resetFromOperate;
+
+  // KH970ClientEvents interface
+  void debugLog(const char *msg) override;
 
   KH970Client _kh970Client;
   int _lastRequestedRow;

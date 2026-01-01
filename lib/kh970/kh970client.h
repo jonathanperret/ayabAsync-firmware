@@ -12,6 +12,11 @@
 #define KH_CS SS
 #endif
 
+class KH970ClientEvents {
+ public:
+  virtual void debugLog(const char *msg) {}
+};
+
 struct KH970Client {
   uint8_t outBytes[32];
   uint8_t bytesToSend;
@@ -45,4 +50,11 @@ struct KH970Client {
   void process(uint8_t bedVal);
 
   void setPattern(const uint8_t *data);
+
+  void debugLog(const char *msg);
+
+  KH970ClientEvents *_eventHandler = nullptr;
+  void setEventHandler(KH970ClientEvents *eventHandler) {
+    _eventHandler = eventHandler;
+  }
 };

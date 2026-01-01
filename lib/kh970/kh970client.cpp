@@ -149,7 +149,14 @@ void KH970Client::begin() {
   pinMode(KH_SCK, OUTPUT);
 }
 
-void KH970Client::append(uint8_t val) { outBytes[bytesToSend++] = val; }
+void KH970Client::append(uint8_t val) {
+  if (val != 0x8b) {
+    char buf[10];
+    sprintf(buf, "C: %02X", val);
+    debugLog(buf);
+  }
+  outBytes[bytesToSend++] = val;
+}
 
 void KH970Client::update() {
   if (csi.update())
@@ -195,6 +202,11 @@ void KH970Client::update() {
 }
 
 void KH970Client::process(uint8_t bedVal) {
+  if (bedVal != 0x01) {
+    char buf[10];
+    sprintf(buf, "B: %02X", bedVal);
+    debugLog(buf);
+  }
   switch (bedVal) {
   case 0x01:
     // The "ping" message from the bed?
@@ -303,3 +315,10 @@ void KH970Client::process(uint8_t bedVal) {
 void KH970Client::setPattern(const uint8_t *data) {
   memcpy(pattern, data, sizeof(pattern));
 }
+
+void KH970Client::debugLog(const char *msg) {
+  if (_eventHandler) {
+    _eventHandler->debugLog(msg);
+  }
+}
+

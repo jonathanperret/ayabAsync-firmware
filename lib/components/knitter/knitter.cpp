@@ -25,6 +25,9 @@ Knitter::Knitter(hardwareAbstraction::HalInterface *hal) : API(hal) {
   _led_b = new Led(_hal, Shield::Leds::LED_B_PIN, HIGH, LOW);
 
   _resetFromOperate = false;
+
+  _kh970Client.setEventHandler(this);
+
   reset();
 }
 
@@ -178,6 +181,11 @@ void Knitter::_apiRxIndicateState() {
   _apiIndicateState(_state, 0, 0, carriage,
                     50, _direction, hallActive,
                     BeltShift::Regular);
+}
+
+void Knitter::debugLog(const char *msg)
+{
+  _apiDebugLog(msg);
 }
 
 void Knitter::_runMachine() {

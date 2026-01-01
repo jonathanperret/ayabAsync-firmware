@@ -62,7 +62,8 @@ enum class AYAB_API : uint8_t {
   debugBase = 0xf0,
   debugRequestPeek = 0xf8,
   debugConfirmPeek = 0xf9,
-  debugRequestPoke = 0xfa
+  debugRequestPoke = 0xfa,
+  debugLog = 0xff
 };
 
 class API {
@@ -118,6 +119,8 @@ class API {
   void _apiConfirmInfo();
   // Return peek value
   void _apiConfirmPeek(uint8_t returnValue);
+  // Send debug log message
+  void _apiDebugLog(const char *msg);
 
   hardwareAbstraction::HalInterface *_hal;
 };
